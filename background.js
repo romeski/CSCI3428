@@ -4,20 +4,21 @@
   http://docs.crossrider.com/#!/guide/scopes_background
 *************************************************************************************/
 //alert("background good to go");
-    
+     
       var newBookmarksCount=0;
  var	_bookmarks=[],
 	_folders=[];  
 appAPI.ready(function($) { 
+	 
+/*
 	
-/*	 
  appAPI.bookmarks.getDefaultFolder(function(node) {
         alert('Default folder name: ' + node.title);
     });
      appAPI.bookmarks.getToolbarFolder(function(node) {
         alert('Toolbar folder name: ' + node.title);
-    });
-    
+    });*/
+    /*
      // Store the bookmark objects for later use
     var _nodes = [];
 
@@ -127,11 +128,11 @@ console.log("background loaded");
       //	alert(newBookmarks);
       
       	//if(oldBookmarks != newBookmarks)
-      	if($(oldBookmarks).not(newBookmarks).length == 0 && $(newBookmarks).not(oldBookmarks).length == 0)
-      	{	//alert("difference found");
-      		appAPI.db.set('theBookmarks', newBookmarks);
-      		appAPI.message.toActiveTab({action: "setBookMarks", type: "setBookMarks", Name: "lol", URL: "lol"});
-      	}
+      //	if($(oldBookmarks).not(newBookmarks).length == 0 && $(newBookmarks).not(oldBookmarks).length == 0)
+    //  	{	//alert("difference found");
+     // 		appAPI.db.set('theBookmarks', newBookmarks);
+      //		appAPI.message.toActiveTab({action: "setBookMarks", type: "setBookMarks", Name: "lol", URL: "lol"});
+      //	}
       	
     },5000); // every 5 seconds
 	function getAllBookmarks()
@@ -177,21 +178,26 @@ console.log("background loaded");
 function checkNewBM(newBms)
     {//alert("in checkNewBM");
     	var oldBookmarks=appAPI.db.get('theBookmarks');
+    //	alert("dd");
     	if(newBms.length==0)
     	{
-    		createDefaults();
-    		
+    			alert("new bms length 0");
+    		createDefaults(); //uncomment this
+    		//alert("new bms length 0");
     		
     	}
     	else
     	{
     //	alert("old bookmark:"+oldBookmarks);
-    	//alert("new bookmark:"+newBms);
+    //	alert("new bookmark:"+newBms);
     	var difference=0;
-    	for(var i=0; i<oldBookmarks.length; i++)
+    	if(oldBookmarks != null)
     	{
+    	for(var i=0; i<oldBookmarks.length; i++)
+    	{	//alert("i is"+i);
     		for(var x=0; x<newBms.length; x++)
     		{
+    		//	alert("x is"+x);
     				if(oldBookmarks[i][0]!=newBms[x][0] 
     					|| oldBookmarks[i][1]!=newBms[x][1]
     					|| oldBookmarks[i][2]!=newBms[x][2])
@@ -203,22 +209,32 @@ function checkNewBM(newBms)
     		}	
     		
     	}
-    	if(oldBookmarks.length!=newBms.length)
+    		if(oldBookmarks.length!=newBms.length)
     	{
     		difference=1;
     	}
+    	
+    	}
+    	else
+    	{
+    		difference=1;
+    	}
+    //	alert("heyo");
+    //	alert("heyoa");
     	//	if($(oldBookmarks).not(newBms).length == 0 && $(newBms).not(oldBookmarks).length == 0)
     	if(difference==1)
       	{	
-      		//alert("difference found");
+      	//	alert("difference found");
       		appAPI.db.set('theBookmarks', newBms);
       		appAPI.message.toActiveTab({action: "setBookMarks", type: "setBookMarks", Name: "lol", URL: "lol"});
       	}
       	else
       	{
-      		//alert("no difference");
+      	//	alert("no difference");
       	}
-    }}
+    }
+    
+    }
     var countCreates=0;
     
     	function createDefaults(){
